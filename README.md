@@ -10,7 +10,9 @@ This library provides a simple and efficient way to manage translation files. It
 * Simple and efficient way to manage translation files
 
 ## Installation
-To install the library, simply copy the `bundles.py` file into your project directory.
+currently not in pypi and not installable using pip
+
+instead simply copy the `bundles.py` file into your project directory.
 
 ## Usage
 Here is an example of how to use the library:
