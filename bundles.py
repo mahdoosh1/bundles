@@ -73,6 +73,8 @@ class _Parser:
         return left, right
     def parse_all(self, text):
         output = dict()
+        if len(text) < 2:
+            return output
         for line in text.split('\n'):
             key, value = self.parse_line(line)
             output[key] = value
@@ -84,7 +86,7 @@ import pathlib as _pl
 class Bundle:
     def __init__(self, file_dir):
         with open(file_dir) as file:
-            file_data_parsed = _PARSER.parse_all(file)
+            file_data_parsed = _PARSER.parse_all(file.read())
         self.data = file_data_parsed
     def get_translation(self,identifier):
         return self.data[identifier]
@@ -102,7 +104,7 @@ class Bundles:
                 if subpath.suffix.lower() != '.bundle':
                     continue
                 filename = subpath.stem
-                bundles[filename] = Bundle(str(subpath))
+                bundles[filename] = Bundle(subpath.resolve())
         self.bundles = bundles
         self.languages = list(bundles.keys())
     def get_bundle(self,language):
@@ -121,6 +123,6 @@ class Languages:
     def __init__(self, bundles):
         if not isinstance(bundles, Bundles):
             bundles = Bundles(bundles)
-        for language_name, bundle in bundles.bundles:
+        for language_name, bundle in bundles.bundles.items():
             language = Language(bundle)
             setattr(self,language_name,language)
