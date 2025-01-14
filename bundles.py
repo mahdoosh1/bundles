@@ -61,7 +61,7 @@ class _Parser:
         if escape:
           raise ValueError(f"Invalid string literal: {s}")
         result = ''.join(result)
-        return ''.join(result)
+        return result
     def parse_leftside(self,text):
         if text.startswith(' ') or text.startswith('\t'):
             raise NameError(f"Invalid name: {text}")
