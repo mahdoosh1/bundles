@@ -14,18 +14,20 @@ class _Parser:
         if s[:3] == '"""' and s[-3:] == '"""':
             quote = '"""'
             s = s[3:-3]
-        elif s[:2] == '"""':
+        elif s[:2] == '""':
             raise ValueError(f"Invalid string literal: {s}")
         elif s[:3] == "'''":
             quote = "'''"
             s = s[3:-3] if s[-3:] == "'''" else s[3:]
-        elif s[:3] == "'''":
+        elif s[:2] == "''":
             raise ValueError(f"Invalid string literal: {s}")
         elif s[0] in ('"', "'"):
             quote = s[0]
             if s[1] == quote:
                 raise ValueError(f"Invalid string literal: {s}")
-            s = s[1:]
+            if s[-1] != quote:
+                raise ValueError(f"Invalid string literal: {s}")
+            s = s[1:-1]
         else:
             raise ValueError(f"Invalid string literal: {s}")
 
@@ -58,12 +60,13 @@ class _Parser:
 
         if escape:
           raise ValueError(f"Invalid string literal: {s}")
-
+        result = ''.join(result)
         return ''.join(result)
     def parse_leftside(self,text):
         if text.startswith(' ') or text.startswith('\t'):
             raise NameError(f"Invalid name: {text}")
-        return filter(text,self.allowed)
+        allow = lambda x: x in self.allowed
+        return ''.join(list(filter(allow,text)))
     def parse_rightside(self,text):
         return self.parse_string_literal(text.strip())
     def parse_line(self,text):
@@ -116,7 +119,7 @@ class Language:
     def __init__(self, bundle):
         if not isinstance(bundle, Bundle):
             bundle = Bundle(bundle)
-        for key, val in bundle.data:
+        for key, val in bundle.data.items():
             setattr(self, key, val)
 
 class Languages:
