@@ -27,7 +27,15 @@ bundles = Bundles(bundles_path)
 
 print(bundles.get_translation(current_language,identifier))
 ```
+or
+```python
+from bundles import Languages
 
+langs = Languages("./bundles/")
+current_lang = langs.English
+
+print(current_lang.welcome_message)
+```
 ## Classes
 The library includes the following public classes:
 
