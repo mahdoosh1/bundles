@@ -52,6 +52,7 @@ Difference of Bundles and Langauges classes are:
 Bundle files end with .bundle, and they are written like normal variable assignment in python like this:
 ```python
 welcome_message = "Welcome to Bundles Module"
+```
 
 ## Contributing
 Contributions are welcome! If you have any suggestions or improvements, please submit a pull request.
